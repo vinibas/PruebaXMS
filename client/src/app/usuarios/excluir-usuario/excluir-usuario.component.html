@@ -1,0 +1,36 @@
+<h2>Excluir usuario</h2>
+<hr />
+<p>¿Estás seguro que deseas eliminar el usuario?</p>
+
+<alert type="success" dismissible="true" dismissOnTimeout="5000"
+  *ngIf="excluidoComSucesso" (onClosed)="onClosedAlert($event)">
+    <strong>Éxito!</strong> Usuario eliminado con éxito!
+</alert>
+<alert type="danger" dismissible="dismissible" dismissOnTimeout="5000"
+  *ngIf="excluidoComErro" (onClosed)="onClosedAlert($event)">
+    <strong>Error!</strong> Error al eliminar el usuario!
+</alert>
+
+<table class="table table-striped" *ngIf='usuario'>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>E-mail</th>
+      <th>País</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ usuario.nombre }}</td>
+      <td>{{ usuario.email }}</td>
+      <td>{{ usuario.nomePais }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<form novalidate (ngSubmit)="excluirUsuario()">
+  <div class="form-actions no-color">
+    <input type="submit" value="Sí" class="btn btn-danger" />
+    <a [routerLink]="['/listar']" class="btn btn-primary">No</a>
+  </div>
+</form>
