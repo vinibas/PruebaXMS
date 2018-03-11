@@ -2,29 +2,35 @@
 <hr />
 
 <table class="table table-striped" *ngIf='usuarios && usuarios.length; else avisoBlock'>
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>E-mail</th>
-        <th>País</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor='let usuario of usuarios'>
-        <td>{{ usuario.nombre }}</td>
-        <td>{{ usuario.email }}</td>
-        <td>{{ usuario.nomePais }}</td>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>E-mail</th>
+      <th>País</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor='let usuario of usuarios'>
+      <td>{{ usuario.nombre }}</td>
+      <td>{{ usuario.email }}</td>
+      <td>{{ usuario.nomePais }}</td>
 
-        <td>
-          <a [routerLink]="['/editar', usuario.id]" title="Detalhes" class="btn btn-primary">
-            Editar
-          </a>
-          <a [routerLink]="['/excluir', usuario.id]" title="Detalhes" class="btn btn-primary">
-            Borrar
-          </a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <ng-template #avisoBlock><p class="text-danger">No hay resultados</p></ng-template>
+      <td>
+        <a [routerLink]="['/editar', usuario.id]" title="Detalhes" class="btn btn-primary">
+          Editar
+        </a>
+        <a [routerLink]="['/excluir', usuario.id]" title="Detalhes" class="btn btn-primary">
+          Borrar
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<ng-template #avisoBlock>
+  <p class="text-danger" *ngIf="!processandoRequisicao">No hay resultados</p>
+</ng-template>
+
+<div class="espera-formulario" *ngIf="processandoRequisicao">
+  <div class="loader-espera-formulario"></div>
+</div>

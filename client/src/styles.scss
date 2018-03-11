@@ -6,3 +6,32 @@ select,
 textarea {
     max-width: 280px;
 }
+
+$cor-espera-forumulario: #bbb;
+.espera-formulario {
+    background-color: $cor-espera-forumulario;
+    opacity: 0.5;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+}
+.loader-espera-formulario {
+    border: 5px solid $cor-espera-forumulario;
+    animation: spin 1s linear infinite;
+    border-top: 5px solid #2b2b2b;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: 50%;
+    margin-left: -25px;
+    bottom: 50%;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -30,7 +30,11 @@
 
 <form novalidate (ngSubmit)="excluirUsuario()">
   <div class="form-actions no-color">
-    <input type="submit" value="Sí" class="btn btn-danger" />
+    <input type="submit" value="Sí" class="btn btn-danger" [disabled]="processandoRequisicao || excluidoComSucesso" />
     <a [routerLink]="['/listar']" class="btn btn-primary">No</a>
   </div>
 </form>
+
+<div class="espera-formulario" *ngIf="processandoRequisicao">
+    <div class="loader-espera-formulario"></div>
+  </div>

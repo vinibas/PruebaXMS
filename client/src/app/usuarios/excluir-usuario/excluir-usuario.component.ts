@@ -11,10 +11,11 @@ import { UsuarioService } from '../usuario.service';
 })
 export class ExcluirUsuarioComponent implements OnInit {
 
-  public usuarioId = '';
-  public usuario: Usuario;
-  public excluidoComSucesso = false;
-  public excluidoComErro = false;
+  private usuarioId = '';
+  private usuario: Usuario;
+  private excluidoComSucesso = false;
+  private excluidoComErro = false;
+  private processandoRequisicao = true;
 
   constructor(private usuarioService: UsuarioService,
     private route: ActivatedRoute,
@@ -27,14 +28,23 @@ export class ExcluirUsuarioComponent implements OnInit {
       });
 
     this.usuarioService.obterUsuario(this.usuarioId)
-    .subscribe( usuario => { this.usuario = usuario; });
+    .subscribe( usuario => {
+      this.usuario = usuario;
+      this.processandoRequisicao = false;
+    });
   }
 
   public excluirUsuario() {
+    this.processandoRequisicao = true;
     this.usuarioService.excluirUsuario(this.usuarioId)
       .subscribe(
-      usuario => this.excluidoComSucesso = true,
-      error => this.excluidoComErro = true);
+      usuario => {
+        this.excluidoComSucesso = true;
+        this.processandoRequisicao = false;
+      }, error => {
+        this.excluidoComErro = true;
+        this.processandoRequisicao = false;
+      });
   }
 
   onClosedAlert($event) {

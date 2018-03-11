@@ -10,11 +10,15 @@ import { Usuario } from '../model/usuario';
 export class ListarUsuarioComponent implements OnInit {
 
   private usuarios: Usuario[];
+  private processandoRequisicao = true;
 
   constructor(private usuarioService: UsuarioService) { }
 
   ngOnInit() {
     this.usuarioService.obterTodos()
-      .subscribe(usuarios => this.usuarios = usuarios);
+      .subscribe(usuarios => {
+        this.usuarios = usuarios;
+        this.processandoRequisicao = false;
+      }, error => this.processandoRequisicao = false);
   }
 }

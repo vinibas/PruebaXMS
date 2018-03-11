@@ -33,7 +33,8 @@ export class EditarUsuarioComponent implements OnInit, AfterViewInit, OnDestroy 
   private submetidoComSucesso = false;
   private submetidoComErro = false;
 
-  private processandoRequisicao = false;
+  private processandoRequisicao = true;
+  private mostrarEsperaFormulario = true;
 
   private sub: any;
 
@@ -77,6 +78,7 @@ export class EditarUsuarioComponent implements OnInit, AfterViewInit, OnDestroy 
       .subscribe(usuario => {
         this.usuario = usuario;
         this.preencherFormUsuario(usuario);
+        this.processandoRequisicao = false;
       });
   }
 
@@ -109,14 +111,14 @@ export class EditarUsuarioComponent implements OnInit, AfterViewInit, OnDestroy 
         .subscribe(
           result => {
             this.onSaveComplete();
-            this.submetidoComSucesso = true;
             this.processandoRequisicao = false;
+            this.submetidoComSucesso = true;
           },
           error => {
             console.log(error);
             this.errors = this.parseErrorsModelState(JSON.parse(error._body).ModelState);
-            this.submetidoComErro = true;
             this.processandoRequisicao = false;
+            this.submetidoComErro = true;
           });
     }
   }

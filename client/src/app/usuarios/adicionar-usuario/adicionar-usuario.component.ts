@@ -63,27 +63,27 @@ export class AdicionarUsuarioComponent implements AfterViewInit {
   }
 
   adicionarUsuario() {
-    this.processandoRequisicao = true;
-    this.submetidoComSucesso = false;
-    this.submetidoComErro = false;
-
     this.displayMessage = this.genericValidator.processMessages(this.usuarioForm);
 
     if (this.usuarioForm.dirty && this.usuarioForm.valid) {
+      this.processandoRequisicao = true;
+      this.submetidoComSucesso = false;
+      this.submetidoComErro = false;
+
       const u = Object.assign({}, new Usuario(), this.usuarioForm.value);
 
       this.usuarioService.adicionarUsuario(u)
         .subscribe(
           result => {
             this.onSaveComplete();
-            this.submetidoComSucesso = true;
             this.processandoRequisicao = false;
+            this.submetidoComSucesso = true;
           },
           error => {
             console.log(error);
             this.errors = this.parseErrorsModelState(JSON.parse(error._body).ModelState);
-            this.submetidoComErro = true;
             this.processandoRequisicao = false;
+            this.submetidoComErro = true;
           });
     }
   }
