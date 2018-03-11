@@ -177,6 +177,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803110551078_versao1.cs" />
+    <Compile Include="Migrations\201803110551078_versao1.Designer.cs">
+      <DependentUpon>201803110551078_versao1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Pais.cs" />
     <Compile Include="Models\Usuario.cs" />
@@ -203,6 +207,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201803110551078_versao1.resx">
+      <DependentUpon>201803110551078_versao1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
