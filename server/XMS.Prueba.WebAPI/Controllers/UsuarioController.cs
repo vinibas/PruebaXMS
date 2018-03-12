@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using XMS.Prueba.WebAPI.Data;
 using XMS.Prueba.WebAPI.Models;
+using XMS.Prueba.WebAPI.ViewModels.UsuarioViewModel;
 
 namespace XMS.Prueba.WebAPI.Controllers
 {
@@ -19,42 +20,70 @@ namespace XMS.Prueba.WebAPI.Controllers
             _usuarioRepository = usuarioRepository;
         }
 
-        public IEnumerable<Usuario> Get()
+        public IEnumerable<ObterUsuarioViewModel> Get()
         {
-            return _usuarioRepository.ListarTodos();
+            return _usuarioRepository.ListarTodos().Select(p => new ObterUsuarioViewModel
+            {
+                Id = p.Id,
+                Nombre = p.Nombre,
+                Email = p.Email,
+                Pais = p.Pais
+            });
         }
         
-        public Usuario Get(Guid id)
+        public ObterUsuarioViewModel Get(Guid id)
         {
-            return _usuarioRepository.ObterPorId(id);
+            var usuario = _usuarioRepository.ObterPorId(id);
+            ObterUsuarioViewModel vm = null;
+
+            if (usuario != null)
+                vm = new ObterUsuarioViewModel
+                {
+                    Id = usuario.Id,
+                    Nombre = usuario.Nombre,
+                    Email = usuario.Email,
+                    Pais = usuario.Pais
+                };
+
+
+            return vm;
         }
         
         [HttpPost]
         [AllowAnonymous]
-        public IHttpActionResult Post([FromBody]Usuario usuario)
+        public IHttpActionResult Post([FromBody]AdicionarUsuarioViewModel vm)
         {
-            var resPais = ValidarPais(usuario.Pais);
-            if (resPais != null)
-                ModelState.AddModelError("Error", resPais);
-
             if (ModelState.IsValid)
             {
+                var usuario = new Usuario
+                {
+                    Nombre = vm.Nombre,
+                    Email = vm.Email,
+                    Contrasena = vm.Contrasena,
+                    Pais = vm.Pais
+                };
                 _usuarioRepository.Adicionar(usuario);
+
                 return Ok();
             }
             else
                 return BadRequest(ModelState);
         }
         
-        public IHttpActionResult Put([FromBody]Usuario usuario)
+        public IHttpActionResult Put([FromBody]EditarUsuarioViewModel vm)
         {
-            var resPais = ValidarPais(usuario.Pais);
-            if (resPais != null)
-                ModelState.AddModelError("Error", resPais);
-
             if (ModelState.IsValid)
             {
+                var usuario = new Usuario
+                {
+                    Id = vm.Id,
+                    Nombre = vm.Nombre,
+                    Email = vm.Email,
+                    Contrasena = vm.Contrasena,
+                    Pais = vm.Pais
+                };
                 _usuarioRepository.Editar(usuario);
+
                 return Ok(new { success = true });
             }
             else
@@ -74,12 +103,5 @@ namespace XMS.Prueba.WebAPI.Controllers
             }
         }
 
-        private string ValidarPais(string value)
-        {
-            if (!string.IsNullOrWhiteSpace(value) && !typeof(Pais).GetFields().Any(p => ((string)p.GetValue(null)) == value))
-                return "País inválido";
-            else
-                return null;
-        }
     }
 }

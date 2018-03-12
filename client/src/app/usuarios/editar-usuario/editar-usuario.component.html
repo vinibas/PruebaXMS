@@ -23,6 +23,9 @@
       <label class="col-md-2 control-label">Nombre</label>
       <div class="col-md-10">
         <input class="form-control" type="text" formControlName="nombre" />
+        <span class="text-danger" *ngIf="displayMessage.nombre">
+          <p [innerHTML]="displayMessage.nombre"></p>
+        </span>
       </div>
     </div>
 
@@ -40,6 +43,9 @@
       <label class="col-md-2 control-label">Contraseña</label>
       <div class="col-md-10">
         <input class="form-control" type="password" formControlName="contrasena" />
+        <span class="text-danger" *ngIf="displayMessage.contrasena">
+          <p [innerHTML]="displayMessage.contrasena"></p>
+        </span>
       </div>
     </div>
 

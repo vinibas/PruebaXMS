@@ -1,8 +1,6 @@
-export class Usuario {
-    id: string;
+abstract class Usuario {
     nombre: string;
     email: string;
-    contrasena: string;
     pais: string;
 
     get nomePais(): string {
@@ -15,4 +13,17 @@ export class Usuario {
                 return this.pais;
         }
     }
+}
+
+export class ObterUsuario extends Usuario {
+    id: string;
+}
+
+export class AdicionarUsuario extends Usuario {
+    contrasena: string;
+}
+
+export class EditarUsuario extends Usuario {
+    id: string;
+    contrasena: string;
 }

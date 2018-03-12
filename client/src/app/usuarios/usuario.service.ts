@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Response, RequestOptions,  Headers,  Http } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
-import { Usuario } from './model/usuario';
+import { ObterUsuario, AdicionarUsuario, EditarUsuario } from './model/usuario';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
@@ -31,7 +31,7 @@ export class UsuarioService {
     return errors.join('<br />');
   }
 
-  adicionarUsuario(usuario: Usuario): Observable<any> {
+  adicionarUsuario(usuario: AdicionarUsuario): Observable<any> {
     const response = this.http
       .post(this.UrlService, usuario, this.obterHeader())
       .catch((this.serviceError));
@@ -39,7 +39,7 @@ export class UsuarioService {
     return response;
   }
 
-  editarUsuario(usuario: Usuario): Observable<any> {
+  editarUsuario(usuario: EditarUsuario): Observable<any> {
     const response = this.http
       .put(this.UrlService, usuario, this.obterHeader())
       .catch((this.serviceError));
@@ -47,19 +47,19 @@ export class UsuarioService {
     return response;
   }
 
-  obterUsuario(id: string): Observable<Usuario> {
+  obterUsuario(id: string): Observable<ObterUsuario> {
     return this.http.get(this.UrlService + id)
       .map((res: Response) => this.mapearUsuarioServidorParaCliente(res.json()))
       .catch(this.serviceError);
   }
 
-  obterTodos(): Observable<Usuario[]> {
+  obterTodos(): Observable<ObterUsuario[]> {
     return this.http.get(this.UrlService)
       .map((res: Response) => this.mapearListaUsuarioServidorParaCliente(res.json()))
       .catch(this.serviceError);
   }
 
-  excluirUsuario(id: string): Observable<Usuario> {
+  excluirUsuario(id: string): Observable<any> {
     const response = this.http
       .delete(this.UrlService + id, this.obterHeader())
       .map((res: Response) => res.json().data || {})
@@ -67,8 +67,8 @@ export class UsuarioService {
     return response;
   }
 
-  private mapearListaUsuarioServidorParaCliente(usuarios: any[]): Usuario[] {
-    const result: Usuario[] = [];
+  private mapearListaUsuarioServidorParaCliente(usuarios: any[]): ObterUsuario[] {
+    const result: ObterUsuario[] = [];
 
     for (let i = 0; i < usuarios.length; i++) {
       result.push(this.mapearUsuarioServidorParaCliente(usuarios[i]));
@@ -76,8 +76,8 @@ export class UsuarioService {
     return result;
   }
 
-  private mapearUsuarioServidorParaCliente(usuario: any): Usuario {
-    const us: Usuario = new Usuario();
+  private mapearUsuarioServidorParaCliente(usuario: any): ObterUsuario {
+    const us: ObterUsuario = new ObterUsuario();
     us.id = usuario.Id;
     us.nombre = usuario.Nombre;
     us.email = usuario.Email;

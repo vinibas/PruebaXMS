@@ -187,6 +187,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Services\CryptorPass.cs" />
+    <Compile Include="ViewModels\CustomDataAnnotations\DataTypePais.cs" />
+    <Compile Include="ViewModels\UsuarioViewModel\EditarUsuarioViewModel.cs" />
+    <Compile Include="ViewModels\UsuarioViewModel\AdicionarUsuarioViewModel.cs" />
+    <Compile Include="ViewModels\UsuarioViewModel\ObterUsuarioViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

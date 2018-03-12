@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from '../model/usuario';
+import { ObterUsuario } from '../model/usuario';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../usuario.service';
 
@@ -12,7 +12,7 @@ import { UsuarioService } from '../usuario.service';
 export class ExcluirUsuarioComponent implements OnInit {
 
   private usuarioId = '';
-  private usuario: Usuario;
+  private usuario: ObterUsuario;
   private excluidoComSucesso = false;
   private excluidoComErro = false;
   private processandoRequisicao = true;

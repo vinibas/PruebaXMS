@@ -3,7 +3,7 @@ import { FormControlName, FormGroup, FormBuilder, Validators } from '@angular/fo
 import { ActivatedRoute } from '@angular/router';
 
 import { UsuarioService } from '../usuario.service';
-import { Usuario } from '../model/usuario';
+import { EditarUsuario } from '../model/usuario';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/observable/fromEvent';
@@ -23,7 +23,7 @@ export class EditarUsuarioComponent implements OnInit, AfterViewInit, OnDestroy 
 
   public errors: any[] = [];
   usuarioForm: FormGroup;
-  usuario: Usuario;
+  usuario: EditarUsuario;
   usuarioId: string;
 
   private displayMessage: { [key: string]: string } = {};
@@ -42,7 +42,9 @@ export class EditarUsuarioComponent implements OnInit, AfterViewInit, OnDestroy 
     this.createForm();
 
     this.validationMessages = {
+      nombre: { maxlength: 'El usuario no puede tener más de 100 caracteres.'},
       email: { required: 'El e-mail es obligatorio', email: 'El e-mail está inválido' },
+      contrasena: { pattern: 'La contraseña debe tener entre 3 y 100 caracteres.'},
     };
 
     this.genericValidator = new GenericValidator(this.validationMessages);
@@ -50,19 +52,19 @@ export class EditarUsuarioComponent implements OnInit, AfterViewInit, OnDestroy 
 
   createForm() {
     this.usuarioForm = this.fb.group({
-      nombre: [''],
+      nombre: ['', [Validators.maxLength(100)]],
       email: ['', [Validators.required, Validators.email]],
-      contrasena: [''],
+      contrasena: ['', [Validators.pattern('^$|^.{3,100}$')]],
       pais: ['']
     });
   }
 
-  preencherFormUsuario(usuario: Usuario): void {
+  preencherFormUsuario(): void {
     this.usuarioForm.patchValue({
-      nombre: usuario.nombre,
-      email: usuario.email,
+      nombre: this.usuario.nombre,
+      email: this.usuario.email,
       contrasena: '',
-      pais: usuario.pais,
+      pais: this.usuario.pais,
     });
   }
 
@@ -76,8 +78,8 @@ export class EditarUsuarioComponent implements OnInit, AfterViewInit, OnDestroy 
   obterUsuario() {
     this.usuarioService.obterUsuario(this.usuarioId)
       .subscribe(usuario => {
-        this.usuario = usuario;
-        this.preencherFormUsuario(usuario);
+        this.usuario = Object.assign(new EditarUsuario(), usuario);
+        this.preencherFormUsuario();
         this.processandoRequisicao = false;
       });
   }
@@ -103,9 +105,10 @@ export class EditarUsuarioComponent implements OnInit, AfterViewInit, OnDestroy 
       this.submetidoComSucesso = false;
       this.submetidoComErro = false;
 
-      const u: Usuario = Object.assign({}, new Usuario(), this.usuarioForm.value);
+      const u: EditarUsuario = Object.assign({}, new EditarUsuario(), this.usuarioForm.value);
 
       u.id = this.usuario.id;
+      u.contrasena = u.contrasena === '' ? null : u.contrasena;
 
       this.usuarioService.editarUsuario(u)
         .subscribe(

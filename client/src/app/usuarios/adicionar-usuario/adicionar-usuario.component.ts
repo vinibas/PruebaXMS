@@ -2,7 +2,7 @@ import { Component, ViewChildren, ElementRef, AfterViewInit } from '@angular/cor
 import { FormControlName, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { GenericValidator } from '../generic-form-validator';
 import { UsuarioService } from '../usuario.service';
-import { Usuario } from '../model/usuario';
+import { AdicionarUsuario } from '../model/usuario';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/observable/fromEvent';
@@ -37,8 +37,10 @@ export class AdicionarUsuarioComponent implements AfterViewInit {
     this.createForm();
 
     this.validationMessages = {
+      nombre: { maxlength: 'El usuario no puede tener más de 100 caracteres.'},
       email: { required: 'El e-mail es obligatorio', email: 'El e-mail está inválido' },
-      contrasena: { required: 'La contraseña es obligatoria' },
+      contrasena: { required: 'La contraseña es obligatoria',
+        pattern: 'La contraseña debe tener entre 3 y 100 caracteres.'},
     };
 
     this.genericValidator = new GenericValidator(this.validationMessages);
@@ -46,9 +48,9 @@ export class AdicionarUsuarioComponent implements AfterViewInit {
 
   createForm() {
     this.usuarioForm = this.fb.group({
-      nombre: [''],
+      nombre: ['', [Validators.maxLength(100)]],
       email: ['', [Validators.required, Validators.email]],
-      contrasena: ['', Validators.required],
+      contrasena: ['', [Validators.required, Validators.pattern('^$|^.{3,100}$')]],
       pais: ['']
     });
   }
@@ -70,7 +72,7 @@ export class AdicionarUsuarioComponent implements AfterViewInit {
       this.submetidoComSucesso = false;
       this.submetidoComErro = false;
 
-      const u = Object.assign({}, new Usuario(), this.usuarioForm.value);
+      const u = Object.assign({}, new AdicionarUsuario(), this.usuarioForm.value);
 
       this.usuarioService.adicionarUsuario(u)
         .subscribe(

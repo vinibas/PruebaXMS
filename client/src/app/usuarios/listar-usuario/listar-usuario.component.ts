@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../usuario.service';
-import { Usuario } from '../model/usuario';
+import { ObterUsuario } from '../model/usuario';
 
 @Component({
   selector: 'app-listar-usuario',
@@ -9,7 +9,7 @@ import { Usuario } from '../model/usuario';
 })
 export class ListarUsuarioComponent implements OnInit {
 
-  private usuarios: Usuario[];
+  private usuarios: ObterUsuario[];
   private processandoRequisicao = true;
 
   constructor(private usuarioService: UsuarioService) { }
