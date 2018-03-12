@@ -76,7 +76,7 @@ namespace XMS.Prueba.WebAPI.Controllers
             {
                 var usuario = new Usuario
                 {
-                    Id = vm.Id,
+                    Id = vm.Id.Value,
                     Nombre = vm.Nombre,
                     Email = vm.Email,
                     Contrasena = vm.Contrasena,

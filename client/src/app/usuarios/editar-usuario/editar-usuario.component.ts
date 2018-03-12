@@ -12,6 +12,7 @@ import 'rxjs/add/observable/throw';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { GenericValidator } from '../generic-form-validator';
+import { FormUtil } from '../../../utils/form.util';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -106,9 +107,9 @@ export class EditarUsuarioComponent implements OnInit, AfterViewInit, OnDestroy 
       this.submetidoComErro = false;
 
       const u: EditarUsuario = Object.assign({}, new EditarUsuario(), this.usuarioForm.value);
+      FormUtil.converterBrancosEmNulos(u);
 
       u.id = this.usuario.id;
-      u.contrasena = u.contrasena === '' ? null : u.contrasena;
 
       this.usuarioService.editarUsuario(u)
         .subscribe(

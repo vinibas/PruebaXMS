@@ -9,17 +9,9 @@ namespace XMS.Prueba.WebAPI.Models
 {
     public class Usuario
     {
-        [Key]
-        public Guid? Id { get; set; }
-        
+        public Guid Id { get; set; }
         public string Nombre { get; set; }
-
-        [Required]
-        [EmailAddress]
         public string Email { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
         public string Contrasena
         {
             set
@@ -32,10 +24,8 @@ namespace XMS.Prueba.WebAPI.Models
                 }
             }
         }
-
-        public string ContrasenaHash { get; protected set; }
-
-        public string ContrasenaSalt { get; protected set; }
+        public string ContrasenaHash { get; private set; }
+        public string ContrasenaSalt { get; private set; }
 
         public string Pais { get; set; }
     }

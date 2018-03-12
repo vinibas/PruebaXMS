@@ -12,6 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { FormUtil } from '../../../utils/form.util';
 
 @Component({
   selector: 'app-adicionar-usuario',
@@ -73,6 +74,8 @@ export class AdicionarUsuarioComponent implements AfterViewInit {
       this.submetidoComErro = false;
 
       const u = Object.assign({}, new AdicionarUsuario(), this.usuarioForm.value);
+      FormUtil.converterBrancosEmNulos(u);
+
 
       this.usuarioService.adicionarUsuario(u)
         .subscribe(
